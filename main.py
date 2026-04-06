@@ -1,6 +1,8 @@
 import numpy as np
 import sympy as sp
 from scipy.integrate import quad, dblquad
+import matplotlib.pyplot as plt
+from scipy.optimize import fsolve
 
 def main():
     
@@ -89,6 +91,43 @@ def main():
     print(f'Опр. интеграл pi_0 dx x_0 cos (x + y) dy через SymPy:\n{res_g}')
     print('=' * 50)
     print('\n')
+    
+    # Задание 8 (Построить y = ln(x + 5) y = 3 * x - 2)
+    f1 = lambda x: np.log(x + 5)
+    f2 = lambda x: 3*x - 2
+
+    ix = fsolve(lambda x: f1(x) - f2(x), 1)[0]
+    iy = f1(ix)
+
+    x = np.linspace(-4.8, 6, 500)
+    y1 = f1(x)
+    y2 = f2(x)
+    
+    plt.figure(figsize=(16, 10), dpi=100)
+
+    plt.plot(x, y1, label='$y = \ln(x + 5)$', color='blue', linewidth=3)
+    plt.plot(x, y2, label='$y = 3x - 2$', color='green', linewidth=3)
+
+    plt.scatter(ix, iy, color='orange', s=150, zorder=5, 
+                label=f'Пересечение ({ix:.2f}, {iy:.2f})')
+
+    plt.title('Графики функций и их пересечение', fontsize=20, pad=20)
+    plt.xlabel('Ось X', fontsize=16)
+    plt.ylabel('Ось Y', fontsize=16)
+
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+
+    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.axhline(0, color='black', linewidth=1.5)
+    plt.axvline(0, color='black', linewidth=1.5)
+    plt.legend(fontsize=15, loc='upper left')
+
+    plt.tight_layout()
+
+    plt.show()
+
+
     
 if __name__ == '__main__':
     main()
