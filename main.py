@@ -1,6 +1,6 @@
 import numpy as np
 import sympy as sp
-from scipy.integrate import quad
+from scipy.integrate import quad, dblquad
 
 def main():
     
@@ -63,11 +63,30 @@ def main():
     
     # Задание 6 (Вычислить интеграл 4_0 (dx/(1 + sqrt(2 * x + 1))))
     f = lambda x: 1 / (1 + np.sqrt(2 * x + 1))
-    res, error = quad(f, 0, 4)
+    x = sp.symbols('x')
+    g = 1 / (1 + sp.sqrt(2 * x + 1))
+    res_f, error = quad(f, 0, 4)
+    res_g = sp.integrate(g, (x, 0, 4)).evalf()
     
     print('Задание 6')
     print('=' * 50)
-    print(res)
+    print(f'Опр. интеграл 4_0 (dx/(1 + sqrt(2 * x + 1))) через SciPy:\n{res_f}')
+    print(f'Опр. интеграл 4_0 (dx/(1 + sqrt(2 * x + 1))) через SymPy:\n{res_g}')
+    print('=' * 50)
+    print('\n')
+    
+    # Задание 7 (Вычислить двойной интеграл pi_0 dx x_0 cos (x + y) dy)
+    f = lambda y, x: np.cos(x + y)
+    res_f, error = dblquad(f, 0, np.pi, lambda x: 0, lambda x: x)
+    
+    x, y = sp.symbols('x y')
+    g = sp.cos(x + y)
+    res_g = sp.integrate(g, (y, 0, x), (x, 0, sp.pi))
+       
+    print('Задание 7')
+    print('=' * 50)
+    print(f'Опр. интеграл pi/2_0 dx x_0 cos (x + y) dy через SciPy:\n{res_f}')
+    print(f'Опр. интеграл pi_0 dx x_0 cos (x + y) dy через SymPy:\n{res_g}')
     print('=' * 50)
     print('\n')
     
